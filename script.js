@@ -6,6 +6,7 @@ const grantAccessContainer = document.querySelector(".grant-location-container")
 const searchForm = document.querySelector("[data-searchForm]");
 const loadingScreen = document.querySelector(".loading-container");
 const userInfoContainer = document.querySelector(".user-info-container");
+const errorContainer = document.querySelector(".error");
 
 
 
@@ -103,8 +104,8 @@ function renderWeatherInfo(weatherInfo) {
    
     cityName.innerText = weatherInfo?.name;
     let check=weatherInfo?.name;
-    console.log(cityName.innerText);
-    console.log(cityName);
+    // console.log(cityName.innerText);
+    // console.log(cityName);
   
     let wrongcity="Enter a nearby city/town";
     
@@ -124,15 +125,22 @@ function renderWeatherInfo(weatherInfo) {
     cloudiness.innerText = `${weatherInfo?.clouds?.all}%`;
     if(check===undefined)
     {
+        errorContainer.classList.add("active");
+        userInfoContainer.classList.remove("active");
         cityName.innerText=wrongcity;
         desc.innerText=wrongcity;
         temp.innerText=wrongcity;
         windspeed.innerText=wrongcity;
         humidity.innerText=wrongcity;
         cloudiness.innerText=wrongcity;
-
+        
         console.log("error here");
-        alert(wrongcity+" or correct spelling");
+        // alert(wrongcity+" or correct spelling");
+    }
+    else{
+        
+        userInfoContainer.classList.add("active");
+        errorContainer.classList.remove("active");
     }
 
 
@@ -190,6 +198,8 @@ async function fetchSearchWeatherInfo(city) {
         renderWeatherInfo(data);
     }
     catch(err) {
-        alert("Enter a nearby city/town");
+        // alert("Enter a nearby city/town ji");
+        userInfoContainer.classList.remove("active");
+        errorContainer.classList.add("active");
     }
 }
